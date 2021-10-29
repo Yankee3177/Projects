@@ -103,6 +103,7 @@ def associativeMult(testArr):
             return associative
     return associative
 
+#this is the property of additive identity
 def identityAdd(testArr):
     ident = False
 
