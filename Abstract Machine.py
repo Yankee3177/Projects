@@ -1,4 +1,15 @@
+'''
+This program uses basic abstract alegebra terminology to determine if the input is a group, field, ring.
+'''
+
+
 def closureAdd(testArr,realNums):
+    '''
+
+    :param testArr:
+    :param realNums:
+    :return: True or False depending on the previous calculations
+    '''
     temp = 0
     test = 0
     closure = False
@@ -317,7 +328,6 @@ for cases in range(len(newArr)):
 
     machine(newArr[cases][0],newArr[cases][1],secArr)
     print("\n")
-
 
 
 
