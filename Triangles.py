@@ -14,6 +14,7 @@ def isInScreen(win,james):
         return False
 
     return True
+
 def direction(james):
     angleChange = random.randint(20, 170)
     typeChange = random.randint(1, 3)
@@ -117,43 +118,17 @@ def eqTri(james,startPos,size):
     return myDict[4]
 
 start = (10,10)
-for i in range(20):
+for i in range(1,100):
     james = tur.Turtle()
+    james.ht()
     randd = random.randint(1,2)
     if randd == 1:
         start = rightTri(james,start)
     else:
         size = random.randint(100, 200)
         start = eqTri(james, start, size)
-
-"""""""""
-start = (10,10)
-for i in range(5):
-    size = random.randint(100,200)
-    mike = tur.Turtle()
-    start = eqTri(mike,start,size)
-"""""""""
-"""""""""
-start = (10,10)
-for i in range(5):
-    james = tur.Turtle()
-    start = rightTri(james,start)
-
-"""""""""
-
-'''''''''
-james = tur.Turtle()
-
-james.shapesize(10,8)
-
-mike = james.clone()
-mike.penup()
-mike.forward(500)
-mike.settiltangle(45)
-
-
-'''''''''
-
+    if i % 10 == 0 and i > 1:
+        tur.clearscreen()
 
 tur.done()
 
