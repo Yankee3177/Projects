@@ -1,7 +1,8 @@
 import turtle as tur
 import random
 
-def isInScreen(win,james):
+
+def isInScreen(win, james):
     leftBound = win.window_width() // -6
     rightBound = win.window_width() / 6
     bottomBound = win.window_height() // -6
@@ -14,6 +15,7 @@ def isInScreen(win,james):
         return False
 
     return True
+
 
 def direction(james):
     angleChange = random.randint(20, 170)
@@ -35,13 +37,13 @@ def direction(james):
 
     return moveDir
 
-def rightTri(james,posStart):
+
+def rightTri(james, posStart):
     inScreen = False
     james.speed(10)
     james.penup()
     james.goto(posStart)
     james.pendown()
-
 
     myDict = dict()
     myDict[1] = james.pos()
@@ -55,15 +57,14 @@ def rightTri(james,posStart):
     james.forward(71)
     james.penup()
     while not inScreen:
-        inScreen = isInScreen(tur,james)
+        inScreen = isInScreen(tur, james)
         myDict[4] = direction(james)
         if inScreen == False:
             james.setx(0)
             james.sety(0)
     james.setheading(0)
 
-
-    for i in range(1,4):
+    for i in range(1, 4):
         james.goto(myDict[i])
         james.pendown()
         if i == 1:
@@ -81,7 +82,7 @@ def rightTri(james,posStart):
     return myDict[4]
 
 
-def eqTri(james,startPos,size):
+def eqTri(james, startPos, size):
     james.speed(10)
     inScreen = False
     james.penup()
@@ -97,33 +98,33 @@ def eqTri(james,startPos,size):
     while not inScreen:
         inScreen = isInScreen(tur, james)
         myDict[4] = direction(james)
-        if inScreen == False:
+        if not inScreen:
             james.setx(0)
             james.sety(0)
 
-
-    for i in range(3,0,-1):
+    for i in range(3, 0, -1):
         james.penup()
         james.goto(myDict[i])
         james.pendown()
         if i == 2:
             james.right(120)
-            james.forward(size*2)
+            james.forward(size * 2)
             james.penup()
-            james.right(150) ##add 30 to 120 to account for the left 30 degree change in the else statement
+            james.right(150)  ##add 30 to 120 to account for the left 30 degree change in the else statement
         else:
             james.left(30)
-            james.forward(size*2)
+            james.forward(size * 2)
             james.penup()
     return myDict[4]
 
-start = (10,10)
-for i in range(1,100):
+
+start = (0, 0)
+for i in range(1, 100):
     james = tur.Turtle()
     james.ht()
-    randd = random.randint(1,2)
+    randd = random.randint(1, 2)
     if randd == 1:
-        start = rightTri(james,start)
+        start = rightTri(james, start)
     else:
         size = random.randint(100, 200)
         start = eqTri(james, start, size)
@@ -131,4 +132,3 @@ for i in range(1,100):
         tur.clearscreen()
 
 tur.done()
-
