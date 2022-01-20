@@ -161,7 +161,7 @@ def eqTri(eTri, startPos, size):
 
 
 start = (0, 0)
-for i in range(1, 2):
+for i in range(1, 100):
 
     # This is used to constantly look for the e to be typed on the keyboard to terminate the program.
     tur.listen()
