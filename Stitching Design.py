@@ -1,6 +1,8 @@
 import turtle as tur
 
+tur.screensize(canvwidth=10000,canvheight=10000)
 tur.speed(10)
+
 def binConv(char):
     vowelList = ['a','e','i','o','u']
     if char in vowelList:
@@ -17,28 +19,20 @@ def horizontalLines(length):
     counter = 0
     while counter <= length:
         tur.pendown()
-        tur.fd(20)# change this number to make it bigger
+        tur.fd(20)# change this number to make it bigger or smaller
         tur.penup()
         counter+=1
         tur.fd(20)
+    return counter
 
-def verticalLines(length,numType):#1 is for odd numbers and 2 is for even numbers
+def verticalLines(length):
     counter = 0
-    if numType == 1:
-        while counter <= (length//2):
-            tur.pendown()
-            tur.fd(20)  # change this number to make it bigger
-            tur.penup()
-            counter += 1
-            tur.fd(20)
-    else:
-        while counter <= (length//2):
-            tur.pendown()
-            tur.fd(20)  # change this number to make it bigger
-            tur.penup()
-            counter += 1
-            tur.fd(20)
-
+    while counter <= (length//2)-1:
+        tur.pendown()
+        tur.fd(20)  # change this number to make it bigger or smaller
+        tur.penup()
+        counter += 1
+        tur.fd(20)
 
 maxlen = 30
 lenPhrase = 0
@@ -55,7 +49,7 @@ for i in phrase:
 eulList = listConv(eulNum)
 eulList = list(map(int,eulList))#Convert each char into an int
 
-largeY = 0
+
 expand = 0
 for n in range(lenPhrase):
     currY = int(tur.ycor())
@@ -63,29 +57,26 @@ for n in range(lenPhrase):
 
         tur.penup()
         tur.goto(0,expand)
-        horizontalLines(lenPhrase)
+        count = horizontalLines(lenPhrase)
 
     else:
         tur.penup()
         tur.goto(20, expand)
-        horizontalLines(lenPhrase)
+        count = horizontalLines(lenPhrase)
 
-    currY = int(tur.ycor())
-    if currY > largeY:
-        largeY = currY
     expand += 20
-    print(expand)
 
 shift = 0
 tur.left(90)
-for i in range(largeY+1):
+
+for i in range((count*2)+1):
 
     if eulList[i] %2 == 0:
         tur.goto(shift,0)
-        verticalLines(lenPhrase,2)
+        verticalLines(lenPhrase)
     else:
         tur.goto(shift,20)
-        verticalLines(lenPhrase,1)
+        verticalLines(lenPhrase)
     shift+=20
 
 tur.done()
