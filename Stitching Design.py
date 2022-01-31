@@ -1,15 +1,15 @@
 import turtle as tur
 
-tur.screensize(canvwidth=10000,canvheight=10000)
+tur.screensize(canvwidth=9000,canvheight=6000)
 tur.speed(10)
 
-def binConv(char):
+def binConv(char):#Used to make the custom binary list
     vowelList = ['a','e','i','o','u']
     if char in vowelList:
         return 0
     return 1
 
-def listConv(num):
+def listConv(num):#Converting a string into a list.
     newList = []
     for i in num:
         newList.append(i)
@@ -38,11 +38,15 @@ maxlen = 30
 lenPhrase = 0
 binList = []
 eulNum = "27182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274274663919320030599218174144"
+
 while True :
     phrase = input("Enter a phrase no longer than 30 letters long: ").replace(" ","").lower()
+    phrase = ''.join(filter(str.isalnum, phrase))#Eliminates all special characters
     lenPhrase = len(phrase)
+
     if lenPhrase > 0 and lenPhrase <= maxlen:
         break
+
 for i in phrase:
     binList.append(binConv(i))
 
@@ -56,17 +60,17 @@ for n in range(lenPhrase):
     if binList[n] == 1:
 
         tur.penup()
-        tur.goto(0,expand)
+        tur.goto(-200,expand)
         count = horizontalLines(lenPhrase)
 
     else:
         tur.penup()
-        tur.goto(20, expand)
+        tur.goto(-180, expand)
         count = horizontalLines(lenPhrase)
 
     expand += 20
 
-shift = 0
+shift = -200
 tur.left(90)
 
 for i in range((count*2)+1):
