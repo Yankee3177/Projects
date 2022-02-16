@@ -65,7 +65,24 @@ def inSize(shapeNum):
         sizeList.append(sizeList[1])
     return sizeList
 
-def plotPoints(shapeNum,outSize):
+def inShape(inShapeSize,x,y,z,shapeNum):
+    if shapeNum == 3:
+        if abs(x) <= int(inShapeSize[0]/2)and abs(y) <= int(inShapeSize[0]/2) and abs(z) <= int(inShapeSize[0]/2):
+            return True
+        return False
+
+    if shapeNum == 2:
+        if abs(x) <= int(inShapeSize[0]/2) and abs(y) <= int(inShapeSize[1]/2) and abs(z) <= int(inShapeSize[2]/2):
+            return True
+        return False
+
+    if (x ** 2 + y**2 + z**2) < inShapeSize[0]:
+        return True
+    return False
+
+
+def plotPoints(shapeNum,outSize,inSize,inShapeNum):
+    counter = 0
     listPoints = list()
     newList = outSize.copy()
 
@@ -75,20 +92,28 @@ def plotPoints(shapeNum,outSize):
             dotY = random.randint(-int(newList[0] / 2), int(newList[0] / 2))
             dotZ = random.randint(-int(newList[0] / 2), int(newList[0] / 2))
             listPoints.append(vector(dotX,dotY,dotZ))
+
+            if inShape(inSize,dotX,dotY,dotZ,inShapeNum):
+                counter+=1
+
     else:
         for j in range(100):
             recX = random.randint(-int(newList[0]/2),int(newList[0]/2))
             recY = random.randint(-int(newList[1]/2),int(newList[1]/2))
             recZ = random.randint(-int(newList[2]/2),int(newList[2]/2))
             listPoints.append(vector(recX, recY, recZ))
-    return listPoints
+
+            if inShape(inSize,recX,recY,recZ,inShapeNum):
+                counter+=1
+
+    return listPoints,counter
 
 
 
 outShape = True
 shapes = list()
-outShapeSize = 0
-inShapeSize = 0
+outShapeSize = list()
+inShapeSize = list()
 for i in range(2):
     shape = random.randint(1,3) #This grabs a random index number
     shapes.append(shape)
@@ -100,5 +125,7 @@ for i in range(2):
         inShapeSize = inSize(shape)
         drawShape(shape,inShapeSize,outShape)
 
-listt = plotPoints(shapes[0],outShapeSize)
-points(pos=listt, radius=5, color=color.red)
+plotList,pointIn = plotPoints(shapes[0],outShapeSize,inShapeSize,shapes[1])
+points(pos=plotList, radius=5, color=color.red)
+
+print("This is how many points touched the inside shape: ", pointIn)
