@@ -9,10 +9,11 @@ tur.hideturtle()
 areaList = []
 def circle(size):
     tur.circle(size)
+    startPos = tur.pos()
     area = round(math.pi * size ** 2,4)
     print("Area of circle is: ", area)
     areaList.append(area)
-    return [(0.00,0.00)]
+    return startPos
 
 def square(size):
     startPos = tur.pos()
@@ -55,7 +56,7 @@ def plotPoints(size,shapeNum,startPosX,xSecShape,inShape,inSize,ySecShape):
     counter = 0
     if shapeNum == 3:#Square
         start = startPosX
-        for i in range(100):
+        for i in range(1,101):
             dotX = random.randint(start,size)
             dotY = random.randint(0,size)
             tur.penup()
@@ -64,10 +65,11 @@ def plotPoints(size,shapeNum,startPosX,xSecShape,inShape,inSize,ySecShape):
             tur.dot()
             if checkIn(inShape,xSecShape,ySecShape,inSize):
                 counter+= 1
+            print("The estimated ratio is: ", round(counter / i, 4))
 
     elif shapeNum == 2:
         start = startPosX
-        for i in range(100):
+        for i in range(1,101):
             xLim = start + size
             dotX = random.randint(start, xLim)
             dotY = random.randint(0, size//2)
@@ -77,6 +79,7 @@ def plotPoints(size,shapeNum,startPosX,xSecShape,inShape,inSize,ySecShape):
             tur.dot()
             if checkIn(inShape,xSecShape,ySecShape,inSize):
                 counter+= 1
+            print("The estimated ratio is: ", round(counter / i, 4))
     else:
         tur.penup()
         tur.goto(0,0)
@@ -85,7 +88,7 @@ def plotPoints(size,shapeNum,startPosX,xSecShape,inShape,inSize,ySecShape):
         tur.forward(size)
         tur.setheading(0)
         mid = tur.pos()
-        for i in range(100):
+        for i in range(1,101):
             tur.penup()
             dotX = random.randint(-(size),size*2)
             dotY = random.randint(-(size),size*2)
@@ -95,8 +98,11 @@ def plotPoints(size,shapeNum,startPosX,xSecShape,inShape,inSize,ySecShape):
                 continue
             tur.pendown()
             tur.dot()
+            tur.penup()
             if checkIn(inShape,xSecShape,ySecShape,inSize):
                 counter+= 1
+            print("The estimated ratio is: ", round(counter/i,4))
+
     return counter
 
 
@@ -112,6 +118,7 @@ def checkIn(shape,xCorr,yCorr,size):
         if tur.xcor() >= xCor and tur.xcor() <= (xCor + size) and tur.ycor() >= yCor and tur.ycor() <= (yCor + (size//2)):
             return True
         return False
+    tur.penup()
     currPos = tur.pos()
     tur.goto(xCorr,yCorr)
     tur.setheading(0)
@@ -176,17 +183,17 @@ for i in range(2):
             else:
                 pos.append(drawShape(shape, inShapeSize))
 
-print("This is pos: ",pos)
 xPos = pos[0][0]
 secPosX = pos[1][0]
 secPosY = pos[1][1]
 
 insideShape = outsideShape[1]
 pointIn = plotPoints(outShapeSize,outsideShape[0],xPos,secPosX,insideShape,inShapeSize,secPosY)
+actRatio = round(areaList[1]/areaList[0],4)
 
-print(pointIn)
+print("This is the amount of times the points were in the inside shape: ", pointIn)
 
-print("Actual Ratio = ",round(areaList[1]/areaList[0],4))
+print("Actual Ratio = ",actRatio)
 
 
 tur.done()
