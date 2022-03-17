@@ -1,4 +1,5 @@
 import sys, pygame, random
+pygame.display.set_caption("Moving Circle")
 
 def randomColor():
     BLACK = [0, 0, 0]
@@ -50,7 +51,6 @@ background = pygame.transform.scale(background, (width*3,height*3))
 moveB = -2100.0
 font = pygame.font.Font("freesansbold.ttf",25)
 textPos = textX,textY = 0,height-150
-
 
 color = randomColor()
 while 1:
