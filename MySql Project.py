@@ -139,7 +139,7 @@ def mySql(cursor,db):
 
         else:
             print("Invalid command\n")
-#"localhost", "root", "03232001", "junk"
+
 def main():
     print("Welcome to the database project, please enter the following information to connect to the database. I will "
           "not store your password.\n")
@@ -159,8 +159,7 @@ def main():
     mySql(action, dataB)
 
 main()
-# dataB = databaseConnect("localhost", "root", "03232001", "junk")
-# action = dataB.cursor()
+
 
 
 
