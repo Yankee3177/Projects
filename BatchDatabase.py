@@ -11,7 +11,7 @@ def insert(insertList, cursor, db):
         if len(insertList[i]) == 5:
             insertList[i].append(None)
 
-        q = """INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s)"""
+        q = """INSERT INTO STUDENTS VALUES (%s, %s, %s, %s, %s, %s)"""
         cursor.execute(q, insertList[i])
 
         db.commit()
@@ -36,7 +36,7 @@ def databaseConnect(hostt, userName, passWord, databasee=None):
 
 
 def idNums(cursor):
-    selQuery = "SELECT StudentID FROM Students"
+    selQuery = "SELECT StudentID FROM STUDENTS"
 
     cursor.execute(selQuery)
     selectData = cursor.fetchall()
@@ -47,7 +47,7 @@ def idNums(cursor):
 
 
 def schoolId(cursor):
-    selQuery = "SELECT SchoolsID FROM School"
+    selQuery = "SELECT SchoolsID FROM SCHOOL"
 
     cursor.execute(selQuery)
     selectData = cursor.fetchall()
@@ -58,7 +58,7 @@ def schoolId(cursor):
 
 
 def hobbyId(cursor):
-    selQuery = "SELECT HobbyID FROM Hobby"
+    selQuery = "SELECT HobbyID FROM HOBBY"
 
     cursor.execute(selQuery)
     selectData = cursor.fetchall()
@@ -69,7 +69,7 @@ def hobbyId(cursor):
 
 
 def sportId(cursor):
-    selQuery = "SELECT SportID FROM Sports"
+    selQuery = "SELECT SportID FROM SPORTS"
 
     cursor.execute(selQuery)
     selectData = cursor.fetchall()
@@ -150,7 +150,7 @@ def manipulateFile(fileName, cursor, db):
                 schoolCity = input("Please enter the school city: ")
                 schoolState = input("Please enter the school state: ")
 
-                cursor.execute("INSERT INTO School VALUES(%s,%s,%s,%s)",
+                cursor.execute("INSERT INTO SCHOOL VALUES(%s,%s,%s,%s)",
                                (insertList[i][3], schoolName, schoolCity, schoolState))
                 print("School added\n")
             else:
@@ -164,7 +164,7 @@ def manipulateFile(fileName, cursor, db):
             if hyAdd == "y":
                 hobbyName = input("\nPlease enter the hobby name: ")
 
-                cursor.execute("INSERT INTO Hobbies VALUES(%s,%s)", (insertList[i][4], hobbyName))
+                cursor.execute("INSERT INTO HOBBIES VALUES(%s,%s)", (insertList[i][4], hobbyName))
                 print("Hobby added\n")
             else:
                 errorList.append(
@@ -179,7 +179,7 @@ def manipulateFile(fileName, cursor, db):
                 if spAdd == "y":
                     sportName = input("Please enter the sport name: ")
 
-                    cursor.execute("INSERT INTO Sports VALUES(%s,%s)", (insertList[i][5], sportName))
+                    cursor.execute("INSERT INTO SPORTS VALUES(%s,%s)", (insertList[i][5], sportName))
                     print("Sport added\n")
                 else:
                     errorList.append(
