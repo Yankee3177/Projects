@@ -1,13 +1,11 @@
 import mysql.connector as mysql
 
 
-class Student:
-    student_id = ""
-    student_firstname = ""
-    student_lastname = ""
-    student_schoolId = ""
-    student_hobbyId = ""
-    student_sportsId = ""
+class School:
+    school_id = ""
+    school_name = ""
+    school_city = ""
+    school_state = ""
 
     def __init__(self, host, userName, password, database):
         self.hostt = host
@@ -23,19 +21,15 @@ class Student:
         )
         self.action = self.db.cursor()
 
-    def setter(self, itemList):
-        self.student_id = itemList[2]
-        self.student_firstname = itemList[0]
-        self.student_lastname = itemList[1]
-        self.student_schoolId = itemList[3]
-        self.student_hobbyId = itemList[4]
-        if len(itemList) == 6:
-            self.student_sportsId = itemList[5]
-        else:
-            self.student_sportsId = None
+    def setter(self,itemList):
+        self.school_id = itemList[0]
+        self.school_name = itemList[1]
+        self.school_city = itemList[2]
+        self.school_state = itemList[3]
 
     def getter(self):
-        return self.student_firstname, self.student_lastname, self.student_id, self.student_schoolId, self.student_hobbyId, self.student_sportsId
+        return self.school_id, self.school_name, self.school_city, self.school_state
+
 
     def insertQ(self, tableName, cursor):
         itemList = self.insertItems(tableName, cursor)
@@ -48,7 +42,7 @@ class Student:
         print("Inserted")
         self.setter(itemList[0])
 
-        print("\n", self.getter())  # Added this to show that you can get the columns of the table
+        print("\n", self.getter())
 
     def selectQ(self, columnName, tableName, cursor, command=None):
         if command is None:
@@ -97,19 +91,19 @@ class Student:
         return columns
 
     def mySql(self, cursor, db):
-        print("\nWelcome to the Student Table\n")
+        print("\nWelcome to the School Table\n")
         commandList = ["insert", "select", "delete", "exit"]
         while True:
             print("The following are the commands you can use: " + str(commandList).strip('[]').replace("'", ""))
             command = input("Enter a command: ").lower()
 
             if command == "insert":
-                tableName = "STUDENTS"
+                tableName = "SCHOOL"
                 self.insertQ(tableName, cursor)
                 db.commit()
 
             elif command == "select":
-                tableName = "STUDENTS"
+                tableName = "SCHOOL"
 
                 print("\nThese are the columns in the table: ")
                 col = self.getColumns(cursor, tableName)
@@ -129,7 +123,7 @@ class Student:
                     self.selectQ(columnName, tableName, cursor)
 
             elif command == "delete":
-                tableName = "STUDENTS"
+                tableName = "SCHOOL"
 
                 print("\nThese are the entries in the table: ")
                 str(self.selectQ("*", tableName, cursor)).replace("'", "")
