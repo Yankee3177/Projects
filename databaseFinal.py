@@ -107,7 +107,11 @@ def student():
                                                                                            sportId, fName, lName))
     submit_btn['font'] = fontt
     submit_btn.grid(row=6, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
+    update_btn = Button(studInsertWindow, text="Update", command=lambda: selQuery("STUDENTS", studInsertWindow))
+    update_btn['font'] = fontt
+    update_btn.grid(row=7, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
 
+    selQuery("STUDENTS", studInsertWindow)
     studInsertWindow.mainloop()
 
 
@@ -143,21 +147,6 @@ def studQ(studId, schoolId, hobbyId, sportId, fName, lName):
     sportId.insert(END, 'None')
 
 
-def hobbyQ(hobbyId, hobbyName, db):
-    q = """INSERT INTO HOBBY VALUES (%s, %s)"""
-
-    if isdigit(hobbyId.get()) and isalpha(hobbyName.get()):
-        db.cursor().execute(q, [hobbyId.get(), hobbyName.get()])
-        db.commit()
-        db.close()
-        messagebox.showinfo(title="Success", message="Record Inserted")
-    else:
-        messagebox.showerror(title="Error", message="Invalid Input")
-
-    hobbyId.delete(0, END)
-    hobbyName.delete(0, END)
-
-
 def hobby():
     dbase = mysql.connect(
         host=host.get(),
@@ -186,23 +175,27 @@ def hobby():
                         command=lambda: hobbyQ(hobbyId, hobbyName, dbase))
     submit_btn['font'] = fontt
     submit_btn.grid(row=2, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
+    update_btn = Button(hobbyInsertWindow, text="Update", command=lambda: selQuery("HOBBY", hobbyInsertWindow))
+    update_btn['font'] = fontt
+    update_btn.grid(row=3, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
 
+    selQuery("HOBBY", hobbyInsertWindow)
     hobbyInsertWindow.mainloop()
 
 
-def sportQ(sportId, sportName, db):
-    q = """INSERT INTO SPORT VALUES (%s, %s)"""
+def hobbyQ(hobbyId, hobbyName, db):
+    q = """INSERT INTO HOBBY VALUES (%s, %s)"""
 
-    if isdigit(sportId.get()) and isalpha(sportName.get()):
-        db.cursor().execute(q, [sportId.get(), sportName.get()])
+    if isdigit(hobbyId.get()) and isalpha(hobbyName.get()):
+        db.cursor().execute(q, [hobbyId.get(), hobbyName.get()])
         db.commit()
         db.close()
         messagebox.showinfo(title="Success", message="Record Inserted")
     else:
         messagebox.showerror(title="Error", message="Invalid Input")
 
-    sportId.delete(0, END)
-    sportName.delete(0, END)
+    hobbyId.delete(0, END)
+    hobbyName.delete(0, END)
 
 
 def school():
@@ -221,6 +214,12 @@ def school():
     schoolName = Entry(schoolInsertWindow, width=30, bg='#FFF0F5')
     schoolName['font'] = fontt
     schoolName.grid(row=1, column=1)
+    schoolCity = Entry(schoolInsertWindow, width=30, bg='#FFF0F5')
+    schoolCity['font'] = fontt
+    schoolCity.grid(row=2, column=1)
+    schoolState = Entry(schoolInsertWindow, width=30, bg='#FFF0F5')
+    schoolState['font'] = fontt
+    schoolState.grid(row=3, column=1)
 
     schoolIdLabel = Label(schoolInsertWindow, text="School ID", bg='#FFF0F5')
     schoolIdLabel['font'] = fontt
@@ -228,13 +227,40 @@ def school():
     schoolNameLabel = Label(schoolInsertWindow, text="School Name", bg='#FFF0F5')
     schoolNameLabel['font'] = fontt
     schoolNameLabel.grid(row=1, column=0)
+    schoolCityLabel = Label(schoolInsertWindow, text="City", bg='#FFF0F5')
+    schoolCityLabel['font'] = fontt
+    schoolCityLabel.grid(row=2, column=0)
+    schoolStateLabel = Label(schoolInsertWindow, text="State", bg='#FFF0F5')
+    schoolStateLabel['font'] = fontt
+    schoolStateLabel.grid(row=3, column=0)
 
     submit_btn = Button(schoolInsertWindow, text="Insert To Database",
-                        command=lambda: schoolQ(schoolId, schoolName, dbase))
+                        command=lambda: schoolQ(schoolId, schoolName,schoolCity,schoolState, dbase))
     submit_btn['font'] = fontt
-    submit_btn.grid(row=2, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
+    submit_btn.grid(row=4, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
+    update_btn = Button(schoolInsertWindow, text="Update", command=lambda: selQuery("SCHOOL", schoolInsertWindow))
+    update_btn['font'] = fontt
+    update_btn.grid(row=5, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
 
+    selQuery("SCHOOL", schoolInsertWindow)
     schoolInsertWindow.mainloop()
+
+
+def schoolQ(schoolId, schoolName, city, state, db):
+    q = """INSERT INTO SCHOOL VALUES (%s, %s, %s, %s)"""
+
+    if isdigit(schoolId.get()) and isalpha(schoolName.get()) and isalpha(city.get()) and isalpha(state.get()):
+        db.cursor().execute(q, [schoolId.get(), schoolName.get(), city.get(), state.get()])
+        db.commit()
+        db.close()
+        messagebox.showinfo(title="Success", message="Record Inserted")
+    else:
+        messagebox.showerror(title="Error", message="Invalid Input")
+
+    schoolId.delete(0, END)
+    schoolName.delete(0, END)
+    city.delete(0, END)
+    state.delete(0, END)
 
 
 def sport():
@@ -245,7 +271,7 @@ def sport():
         database=databasee.get()
     )
     sportInsertWindow = Toplevel(main)
-    sportInsertWindow.title("Insert into the sport table")
+    sportInsertWindow.title("Insert into the sports table")
 
     sportId = Entry(sportInsertWindow, width=30, bg='#FFF0F5')
     sportId['font'] = fontt
@@ -265,27 +291,32 @@ def sport():
                         command=lambda: sportQ(sportId, sportName, dbase))
     submit_btn['font'] = fontt
     submit_btn.grid(row=2, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
+    update_btn = Button(sportInsertWindow, text="Update", command=lambda: selQuery("SPORTS", sportInsertWindow))
+    update_btn['font'] = fontt
+    update_btn.grid(row=3, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
 
+    selQuery("SPORTS", sportInsertWindow)
     sportInsertWindow.mainloop()
 
 
-def schoolQ(schoolId, schoolName, db):
-    q = """INSERT INTO SCHOOL VALUES (%s, %s)"""
+def sportQ(sportId, sportName, db):
+    q = """INSERT INTO SPORTS VALUES (%s, %s)"""
 
-    if isdigit(schoolId.get()) and isalpha(schoolName.get()):
-        db.cursor().execute(q, [schoolId.get(), schoolName.get()])
+    if isdigit(sportId.get()) and isalpha(sportName.get()):
+        db.cursor().execute(q, [sportId.get(), sportName.get()])
         db.commit()
         db.close()
         messagebox.showinfo(title="Success", message="Record Inserted")
     else:
         messagebox.showerror(title="Error", message="Invalid Input")
 
-    schoolId.delete(0, END)
-    schoolName.delete(0, END)
+    sportId.delete(0, END)
+    sportName.delete(0, END)
 
 
-def query():
-    # If you want to connect to a personal database, change the host to your hostname and fill in the rest of the information
+def selQuery(table, currWin):
+    # If you want to connect to a personal database, change the host to your hostname and fill in the rest of the
+    # information
     db = mysql.connect(
         host="localhost",
         user="root",
@@ -293,18 +324,17 @@ def query():
         database="abclass"
     )
     action = db.cursor()
-    q = """SELECT * FROM STUDENTS"""
+    q = "SELECT * FROM " + table
     action.execute(q)
     result = action.fetchall()
-    # db.close()
 
     records = ""
     for row in result:
         records += str(row) + "\n"
 
-    query_label = Label(main, text=records, bg='#800000', fg='white')
-    query_label['font'] = font.Font(family='Helvetica', size=12)
-    query_label.grid(row=12, column=0, columnspan=2)
+    query_label = Label(currWin, text=records, bg='#800000', fg='white')
+    query_label['font'] = fontt
+    query_label.grid(row=9, column=0, columnspan=2)
 
 
 def delete():
@@ -315,8 +345,8 @@ def delete():
     pickLabel = Label(delWindow, text="Pick a table to delete from", bg='#FFF0F5')
     studentButton = Button(delWindow, text="Student", command=delStudent, bg='#FFF0F5')
     hobbyButton = Button(delWindow, text="Hobby", command=delHobby, bg='#FFF0F5')
-    schoolButton = Button(delWindow, text="School", command=school, bg='#FFF0F5')
-    sportButton = Button(delWindow, text="Sport", command=sport, bg='#FFF0F5')
+    schoolButton = Button(delWindow, text="School", command=delSchool, bg='#FFF0F5')
+    sportButton = Button(delWindow, text="Sport", command=delSport, bg='#FFF0F5')
     exitButton = Button(delWindow, text="Exit", command=lambda: openWindow(delWindow), bg='#FFF0F5')
 
     pickLabel.grid(row=0, column=0, columnspan=2, pady=10, padx=10, ipadx=50, sticky=W)
@@ -374,7 +404,7 @@ def delStudent():
 
     columnRec_label = Label(delStudentWindow, text=columnRec, bg='#800000', fg='white')
     columnRec_label['font'] = fontt
-    columnRec_label.grid(row=2, column=1,sticky=W)
+    columnRec_label.grid(row=2, column=1, sticky=W)
 
     delStudentWindow.mainloop()
 
@@ -443,6 +473,128 @@ def delHobby():
 def delHobbyQ(dbase, deleteEntry, delWin):
     action = dbase.cursor()
     q = "DELETE FROM HOBBY WHERE " + deleteEntry.get()
+    action.execute(q)
+    dbase.commit()
+    deleteEntry.delete(0, END)
+    deleteEntry.insert(END, 'Format is "column_name = value"')
+    messagebox.showinfo(title="Success", message="Record was deleted")
+    delWin.destroy()
+
+
+def delSchool():
+    dbase = mysql.connect(
+        host=host.get(),
+        user=userName.get(),
+        passwd=passWord.get(),
+        database=databasee.get()
+    )
+    delSchoolWindow = Toplevel(main)
+    delSchoolWindow.title("Delete from the school table")
+
+    deleteEntry = Entry(delSchoolWindow, width=30, bg='#FFF0F5')
+    deleteEntry['font'] = fontt
+    deleteEntry.grid(row=0, column=1, pady=10, padx=10, ipadx=50, sticky=W)
+    deleteEntry.insert(END, 'Format is "column_name = value"')
+
+    deleteEntryLabel = Label(delSchoolWindow, text="Enter the information to delete", bg='#FFF0F5')
+    deleteEntryLabel['font'] = fontt
+    deleteEntryLabel.grid(row=0, column=0, pady=10, padx=10, ipadx=50, sticky=W)
+
+    delButton = Button(delSchoolWindow, text="Delete", command=lambda: delSchoolQ(dbase, deleteEntry, delSchoolWindow))
+    delButton.grid(row=1, column=0, pady=10, padx=10, ipadx=50, sticky=W)
+
+    action = dbase.cursor()
+    q = """SELECT * FROM SCHOOL"""
+    action.execute(q)
+
+    result = action.fetchall()
+    records = ""
+    for row in result:
+        records += str(row) + "\n"
+
+    columnRec = ""
+    colum = "SHOW COLUMNS FROM SCHOOL"
+    action.execute(colum)
+    col = action.fetchall()
+    for column in col:
+        columnRec += str(column[0]) + " type = " + str(column[1]).strip("b'").replace("char", "Characters").replace(
+            "int", "Number") + "\n"
+
+    recLabel = Label(delSchoolWindow, text=records, bg='#800000', fg='white')
+    recLabel['font'] = fontt
+    recLabel.grid(row=2, column=0, sticky=W)
+
+    columnRecLabel = Label(delSchoolWindow, text=columnRec, bg='#800000', fg='white')
+    columnRecLabel['font'] = fontt
+    columnRecLabel.grid(row=2, column=1, columnspan=2, sticky=W)
+
+    delSchoolWindow.mainloop()
+
+
+def delSchoolQ(dbase, deleteEntry, delWin):
+    action = dbase.cursor()
+    q = "DELETE FROM SCHOOL WHERE " + deleteEntry.get()
+    action.execute(q)
+    dbase.commit()
+    deleteEntry.delete(0, END)
+    deleteEntry.insert(END, 'Format is "column_name = value"')
+    messagebox.showinfo(title="Success", message="Record was deleted")
+    delWin.destroy()
+
+
+def delSport():
+    dbase = mysql.connect(
+        host=host.get(),
+        user=userName.get(),
+        passwd=passWord.get(),
+        database=databasee.get()
+    )
+    delSportWindow = Toplevel(main)
+    delSportWindow.title("Delete from the sport table")
+
+    deleteEntry = Entry(delSportWindow, width=30, bg='#FFF0F5')
+    deleteEntry['font'] = fontt
+    deleteEntry.grid(row=0, column=1, pady=10, padx=10, ipadx=50, sticky=W)
+    deleteEntry.insert(END, 'Format is "column_name = value"')
+
+    deleteEntryLabel = Label(delSportWindow, text="Enter the information to delete", bg='#FFF0F5')
+    deleteEntryLabel['font'] = fontt
+    deleteEntryLabel.grid(row=0, column=0, pady=10, padx=10, ipadx=50, sticky=W)
+
+    delButton = Button(delSportWindow, text="Delete", command=lambda: delSportQ(dbase, deleteEntry, delSportWindow))
+    delButton.grid(row=1, column=0, pady=10, padx=10, ipadx=50, sticky=W)
+
+    action = dbase.cursor()
+    q = """SELECT * FROM SPORTS"""
+    action.execute(q)
+
+    result = action.fetchall()
+    records = ""
+    for row in result:
+        records += str(row) + "\n"
+
+    columnRec = ""
+    colum = "SHOW COLUMNS FROM SPORTS"
+    action.execute(colum)
+    col = action.fetchall()
+    for column in col:
+        columnRec += str(column[0]) + " type = " + str(column[1]).strip("b'").replace("char", "Characters").replace(
+            "int", "Number") + "\n"
+
+    recLabel = Label(delSportWindow, text=records, bg='#800000', fg='white')
+    recLabel['font'] = fontt
+    recLabel.grid(row=2, column=0, sticky=W)
+
+    columnRecLabel = Label(delSportWindow, text=columnRec, bg='#800000', fg='white')
+    columnRecLabel['font'] = fontt
+    columnRecLabel.grid(row=2, column=1, columnspan=2, sticky=W)
+
+    delSportWindow.mainloop()
+
+
+def delSportQ(dbase, deleteEntry, delWin):
+    action = dbase.cursor()
+    q = "DELETE FROM SPORTS WHERE " + deleteEntry.get()
     action.execute(q)
     dbase.commit()
     deleteEntry.delete(0, END)
