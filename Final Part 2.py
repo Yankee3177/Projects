@@ -13,16 +13,62 @@ def connectUser():
     userPass['font'] = fontt
     userPass.grid(row=1, column=1)
 
-    userNameLabel = Label(main, text="First Name", bg='#FFF0F5')
+    userNameLabel = Label(main, text="Name", bg='#FFF0F5')
     userNameLabel['font'] = fontt
     userNameLabel.grid(row=0, column=0, pady=(10, 0))
     userPassLabel = Label(main, text="Password", bg='#FFF0F5')
     userPassLabel['font'] = fontt
     userPassLabel.grid(row=1, column=0)
 
+    createUserButton = Button(main, text="Create User Account", bg='#FFF0F5', command=lambda: createUser())
+    createUserButton['font'] = fontt
+    createUserButton.grid(row=3, column=1, pady=(10, 0))
+
     loginButton = Button(main, text="Login", bg='#FFF0F5', command=lambda: login(userName.get(), userPass.get()))
     loginButton['font'] = fontt
     loginButton.grid(row=2, column=1, pady=(10, 0))
+
+
+def createUser():
+    main.withdraw()
+    newUserWin = Toplevel(main)
+    newUserWin.title("Create User")
+    newUserWin.configure(background='#800000')
+    newUserWin.resizable(False, False)
+    newUserWin.protocol("WM_DELETE_WINDOW", disableEvent)
+
+    userName = Entry(newUserWin, width=30, bg='#FFF0F5')
+    userName['font'] = fontt
+    userName.grid(row=0, column=1, padx=20, pady=(10, 0))
+    userPass = Entry(newUserWin, width=30, bg='#FFF0F5')
+    userPass['font'] = fontt
+    userPass.grid(row=1, column=1)
+
+    userNameLabel = Label(newUserWin, text="Name", bg='#FFF0F5')
+    userNameLabel['font'] = fontt
+    userNameLabel.grid(row=0, column=0, pady=(10, 0))
+    userPassLabel = Label(newUserWin, text="Password", bg='#FFF0F5')
+    userPassLabel['font'] = fontt
+    userPassLabel.grid(row=1, column=0)
+
+    createUserButton = Button(newUserWin, text="Create User", bg='#FFF0F5',
+                              command=lambda: createAccount(userName.get(), userPass.get(), newUserWin))
+    createUserButton['font'] = fontt
+    createUserButton.grid(row=2, column=1, pady=(10, 0))
+
+    newUserWin.mainloop()
+
+
+def createAccount(userName, userPass, newUserWin):
+    cursor = dbase.cursor()
+    if userName == "" or userPass == "":
+        messagebox.showerror("Error", "Please fill in all fields")
+    else:
+        cursor.execute("INSERT INTO users (userName, userPass) VALUES ('" + userName + "', '" + userPass + "')")
+        dbase.commit()
+        messagebox.showinfo("Success", "Account created")
+    newUserWin.destroy()
+    main.deiconify()
 
 
 def login(userName, userPass):
@@ -40,6 +86,9 @@ def login(userName, userPass):
 def userWin(userId):
     newUserWin = Toplevel(main)
     newUserWin.title("Welcome to your account")
+    newUserWin.protocol("WM_DELETE_WINDOW", disableEvent)
+    newUserWin.configure(background='#800000')
+    newUserWin.resizable(False, False)
 
     welcomeLabel = Label(newUserWin, text="Welcome to your Recipes", bg='#FFF0F5')
     welcomeLabel['font'] = fontt
@@ -59,6 +108,10 @@ def userWin(userId):
                               command=lambda: addRecipes(newUserWin, userId))
     addRecipesButton['font'] = fontt
     addRecipesButton.grid(row=2, column=0, pady=(10, 0))
+
+    exitButton = Button(newUserWin, text="Exit", bg='#FFF0F5', command=lambda: openWindow(newUserWin))
+    exitButton['font'] = fontt
+    exitButton.grid(row=2, column=1, columnspan=2, pady=(10, 0))
 
     newUserWin.mainloop()
 
@@ -83,19 +136,21 @@ def getAllRecipes(userId):
 def showRecipes(newUserWin, userId):
     shRecipesWin = Toplevel(newUserWin)
     shRecipesWin.title("Your Recipes")
+    shRecipesWin.configure(background='#800000')
+    shRecipesWin.resizable(False, False)
 
     recipeList = getAllRecipes(userId)
     clicked = StringVar()
     clicked.set(recipeList[0])
 
     drop = OptionMenu(shRecipesWin, clicked, *recipeList)
-    drop.grid(row=0, column=0, pady=(10, 0))
+    drop.grid(row=0, column=0, columnspan=2, pady=(10, 0))
 
     showRecipeButton = Button(shRecipesWin, text="Show Recipe", bg='#FFF0F5',
                               command=lambda: showRecipe(shRecipesWin, clicked))
 
     showRecipeButton['font'] = fontt
-    showRecipeButton.grid(row=1, column=0, pady=(10, 0))
+    showRecipeButton.grid(row=1, column=0, columnspan=2, pady=(10, 0))
 
     shRecipesWin.mainloop()
 
@@ -108,22 +163,24 @@ def showRecipe(shRecipesWin, clicked):
         rec[0][
             2]) + "\n" + "Instructions:\n " + str(rec[0][5]).replace(".", "\n").replace(". ", "\n") + "\n"
 
-    recLabel = Label(shRecipesWin, text=newStr, bg='#FFF0F5', height=50, width=150)
+    recLabel = Label(shRecipesWin, text=newStr, bg='#800000', fg="white", height=50, width=150)
     recLabel['font'] = fontt
-    recLabel.grid(row=10, column=0, pady=(10, 0), sticky=N)
+    recLabel.grid(row=10, column=0, columnspan=2, pady=(10, 0), sticky=N)
 
 
 def checkRecipes(newUserWin, userId):
     checkRecipesWin = Toplevel(newUserWin)
     checkRecipesWin.title("Look for Recipes")
+    checkRecipesWin.configure(background='#800000')
+    checkRecipesWin.resizable(False, False)
 
     recipeSea = Entry(checkRecipesWin, width=30, bg='#FFF0F5')
     recipeSea['font'] = fontt
-    recipeSea.grid(row=0, column=0, padx=20, pady=(10, 0))
+    recipeSea.grid(row=0, column=1, sticky=W, padx=20, pady=(10, 0))
 
-    recipeSeaLabel = Label(main, text="Enter Recipe Name or approximation:", bg='#FFF0F5')
+    recipeSeaLabel = Label(checkRecipesWin, text="Enter Recipe Name or approximation:", bg='#FFF0F5')
     recipeSeaLabel['font'] = fontt
-    recipeSeaLabel.grid(row=0, column=0, pady=(10, 0))
+    recipeSeaLabel.grid(row=0, column=0, pady=(10, 0), sticky=E)
 
     searchButton = Button(checkRecipesWin, text="Search", bg='#FFF0F5',
                           command=lambda: searchRecipe(checkRecipesWin, recipeSea.get(), userId))
@@ -133,13 +190,16 @@ def checkRecipes(newUserWin, userId):
     checkRecipesWin.mainloop()
 
 
-def searchRecipe(checkRecipesWin, recipeName,userId):
-    q = "SELECT * FROM recipes WHERE recipeName LIKE '%" + recipeName + "%'" + " OR ingredients LIKE '%" + recipeName + "%'""AND userRecipe = '" + str(userId) + "'"
+def searchRecipe(checkRecipesWin, recipeName, userId):
+    q = "SELECT * FROM recipes WHERE recipeName LIKE '%" + recipeName + "%'" + " OR ingredients LIKE '%" + recipeName + "%'""AND userRecipe = '" + str(
+        userId) + "'"
     action.execute(q)
     rec = action.fetchall()
     if len(rec) == 0:
-        Label(checkRecipesWin, text="No recipes found", bg='#FFF0F5', height=50, width=150).grid(row=10, column=0,
-                                                                                                 pady=(10, 0))
+        Label(checkRecipesWin, text="No recipes found", bg='#800000', fg="white", height=50, width=150).grid(row=10,
+                                                                                                             column=0,
+                                                                                                             pady=(
+                                                                                                                 10, 0))
     else:
         recList = []
         for recipe in rec:
@@ -148,17 +208,19 @@ def searchRecipe(checkRecipesWin, recipeName,userId):
         clicked.set(recList[0])
 
         drop = OptionMenu(checkRecipesWin, clicked, *recList)
-        drop.grid(row=2, column=0, pady=(10, 0))
+        drop.grid(row=2, column=0, columnspan=2, pady=(10, 0))
 
         showRecipeButton = Button(checkRecipesWin, text="Show Recipe", bg='#FFF0F5',
                                   command=lambda: showRecipe(checkRecipesWin, clicked))
         showRecipeButton['font'] = fontt
-        showRecipeButton.grid(row=3, column=0, pady=(10, 0))
+        showRecipeButton.grid(row=3, column=0, columnspan=2, pady=(10, 0))
 
 
 def addRecipes(newUserWin, userId):
     addRecipesWin = Toplevel(newUserWin)
     addRecipesWin.title("Add Recipes")
+    addRecipesWin.configure(background='#800000')
+    addRecipesWin.resizable(False, False)
 
     recipeNameLabel = Label(addRecipesWin, text="Recipe Name", bg='#FFF0F5')
     recipeNameLabel['font'] = fontt
@@ -213,6 +275,15 @@ def addRecipe(addRecipesWin, userId, recipeName, servingSize, calories, ingredie
     addRecipesWin.destroy()
 
 
+def disableEvent():
+    pass
+
+
+def openWindow(newWin):
+    main.deiconify()
+    newWin.destroy()
+
+
 main = Tk()
 main.configure(background='#800000')
 fontt = font.Font(family='Courier', size=10, weight='bold')
@@ -229,5 +300,3 @@ dbase = mysql.connect(
 action = dbase.cursor()
 connectUser()
 main.mainloop()
-
-#Work on some stuff
