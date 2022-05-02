@@ -33,6 +33,9 @@ def insert():
     main.withdraw()
     insertWindow = Toplevel(main)
     insertWindow.title("Insert into database")
+    insertWindow.configure(background='#800000')
+    insertWindow.resizable(False, False)
+    insertWindow.protocol("WM_DELETE_WINDOW", disableEvent)
 
     pickLabel = Label(insertWindow, text="Pick a table to insert into", bg='#FFF0F5')
     studentButton = Button(insertWindow, text="Student", command=student, bg='#FFF0F5')
@@ -63,6 +66,8 @@ def student():
     )
     studInsertWindow = Toplevel(main)
     studInsertWindow.title("Insert into Student")
+    studInsertWindow.configure(background='#800000')
+    studInsertWindow.resizable(False, False)
 
     fName = Entry(studInsertWindow, width=30, bg='#FFF0F5')
     fName['font'] = fontt
@@ -156,6 +161,8 @@ def hobby():
     )
     hobbyInsertWindow = Toplevel(main)
     hobbyInsertWindow.title("Insert into the hobby table")
+    hobbyInsertWindow.configure(background='#800000')
+    hobbyInsertWindow.resizable(False, False)
 
     hobbyId = Entry(hobbyInsertWindow, width=30, bg='#FFF0F5')
     hobbyId['font'] = fontt
@@ -207,6 +214,8 @@ def school():
     )
     schoolInsertWindow = Toplevel(main)
     schoolInsertWindow.title("Insert into the school table")
+    schoolInsertWindow.configure(background='#800000')
+    schoolInsertWindow.resizable(False, False)
 
     schoolId = Entry(schoolInsertWindow, width=30, bg='#FFF0F5')
     schoolId['font'] = fontt
@@ -272,6 +281,8 @@ def sport():
     )
     sportInsertWindow = Toplevel(main)
     sportInsertWindow.title("Insert into the sports table")
+    sportInsertWindow.configure(background='#800000')
+    sportInsertWindow.resizable(False, False)
 
     sportId = Entry(sportInsertWindow, width=30, bg='#FFF0F5')
     sportId['font'] = fontt
@@ -341,6 +352,9 @@ def delete():
     main.withdraw()
     delWindow = Toplevel(main)
     delWindow.title("Delete from database")
+    delWindow.configure(background='#800000')
+    delWindow.resizable(False, False)
+    delWindow.protocol("WM_DELETE_WINDOW", disableEvent)
 
     pickLabel = Label(delWindow, text="Pick a table to delete from", bg='#FFF0F5')
     studentButton = Button(delWindow, text="Student", command=delStudent, bg='#FFF0F5')
@@ -368,6 +382,8 @@ def delStudent():
     )
     delStudentWindow = Toplevel(main)
     delStudentWindow.title("Delete from the student table")
+    delStudentWindow.configure(background='#800000')
+    delStudentWindow.resizable(False, False)
 
     deleteEntry = Entry(delStudentWindow, width=30, bg='#FFF0F5')
     deleteEntry['font'] = fontt
@@ -429,6 +445,8 @@ def delHobby():
     )
     delHobbyWindow = Toplevel(main)
     delHobbyWindow.title("Delete from the hobby table")
+    delHobbyWindow.configure(background='#800000')
+    delHobbyWindow.resizable(False, False)
 
     deleteEntry = Entry(delHobbyWindow, width=30, bg='#FFF0F5')
     deleteEntry['font'] = fontt
@@ -490,6 +508,8 @@ def delSchool():
     )
     delSchoolWindow = Toplevel(main)
     delSchoolWindow.title("Delete from the school table")
+    delSchoolWindow.configure(background='#800000')
+    delSchoolWindow.resizable(False, False)
 
     deleteEntry = Entry(delSchoolWindow, width=30, bg='#FFF0F5')
     deleteEntry['font'] = fontt
@@ -551,6 +571,8 @@ def delSport():
     )
     delSportWindow = Toplevel(main)
     delSportWindow.title("Delete from the sport table")
+    delSportWindow.configure(background='#800000')
+    delSportWindow.resizable(False, False)
 
     deleteEntry = Entry(delSportWindow, width=30, bg='#FFF0F5')
     deleteEntry['font'] = fontt
@@ -603,12 +625,16 @@ def delSportQ(dbase, deleteEntry, delWin):
     delWin.destroy()
 
 
+def disableEvent():
+    pass
+
+
 main = Tk()
 main.configure(background='#800000')
 fontt = font.Font(family='Courier', size=10, weight='bold')
 
 main.title("Database Application")
-main.geometry("450x400")
+main.resizable(False, False)
 
 host = Entry(main, width=30, bg='#FFF0F5')
 host['font'] = fontt
@@ -639,5 +665,6 @@ databaseeLabel.grid(row=3, column=0)
 connect_button = Button(main, text="Connect To Database", command=connect)
 connect_button['font'] = fontt
 connect_button.grid(row=6, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
+
 
 main.mainloop()
