@@ -11,6 +11,12 @@
 
 ## Need SQL files to run
 
-- Final Part 2.py:
-  use nutritionapp.sql dump to create the sql database that the app uses.
-- databaseFinal.py: use abclass.sql dump to create the sql database that the app uses.
+1. Final Part 2.py:
+   - Use nutritionapp.sql dump to create the sql database that the app uses.
+   - This app stores and shows recipes.
+   - You can create multiple user accounts to store recipes.
+2. databaseFinal.py:
+   - Use abclass.sql dump to create the sql database that the app uses.
+   - This app was a simulation of a database used in a school environment.
+   - It has students, their hobbies, their school, and their sports.
+   - This app is the gui to perform CRUD commands on the database.
