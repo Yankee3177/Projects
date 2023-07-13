@@ -1,7 +1,6 @@
-
-def encrypt(pText,key):
-    alphList = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+alphList = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
                 'v', 'w', 'x', 'y', 'z']
+def encrypt(pText,key):
     newSentence = []
 
     sentence = pText
@@ -17,12 +16,6 @@ def encrypt(pText,key):
 
         position = alphList.index(letter)
 
-        # if moveMent > 25:
-        #     anss = moveMent - position
-        #     newPos = 25 - anss
-        #     print(alphList[newPos + 1], end = "")
-        #     newSentence.append(alphList[newPos + 1])
-        #     continue
 
         if position + moveMent > 25:
             ans = 25 - position
@@ -40,8 +33,6 @@ def encrypt(pText,key):
     return newSentence
 
 def decrypt(cText,key):
-    alphList = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
-                'v', 'w', 'x', 'y', 'z']
 
     sentence = cText
     moveMent = key
@@ -63,25 +54,33 @@ def decrypt(cText,key):
 
         print(alphList[newLetter], end="")
 
+keyReady = False
+textReady = False
 
-def listToString(s):
-    str1 = ""
+while not textReady:
+    plainText = input("Enter the information needed to encrypt, only letters are accepted:")
 
-    for ele in s:
-        str1 += ele
+    if all(x.isalpha() or x.isspace() for x in plainText): ##This is to make sure only letters are passed in, spaces don't matter
+        textReady = True
+        break
+    print("Only letters are accepted, try again ...")
 
-    return str1
 
+while not keyReady:
+    try :
+        userKey = int(input("Enter the key you want to use for the encryption, it has to be between 1 and 25:"))
 
-plainText = input("Enter the information needed to encrypt:").lower()
-userKey = int(input("Enter the key you want to use for the encryption, it has to be between 1 and 25:"))
+        while userKey < 1 or userKey > 25 :
+            print("The key was not between 1 and 25, try again ...")
+            userKey = int(input("Enter the key you want to use for the encryption, it has to be between 1 and 25:"))
+        keyReady = True
 
-while userKey < 1 or userKey > 25 :
-    userKey = int(input("Enter the key you want to use for the encryption, it has to be between 1 and 25:"))
+    except:
+        print("The key has to be a number, try again ... \n")
 
-cList = encrypt(plainText,userKey)
+cList = encrypt(plainText.lower(),userKey)
 
-cypherText = listToString(cList)
+cypherText = ''.join(cList)
 
 print()
 
