@@ -8,6 +8,9 @@
    - This program puts a sphere on a 3d grid and plots points inside of the sphere. You determine the amount of points you want to plot and the size of the sphere.
 4. Stitching Design.py:
    - This program "stitches" a design based on the phrase that's being passed in. It uses Euler's number and specific rules to determine what the final stitch pattern looks like.
+5. Triangles.py:
+   - This program draws 2 types of triangles in different sizes at different places on a canvas. It then draws lines from the vertices of each triangle. To terminate the program press the letter 'e' on
+     the keyboard.
 
 ## Need SQL files to run
 
